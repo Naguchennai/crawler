@@ -78,7 +78,8 @@ $crawler->addURLFilterRule("#\.(jpg|jpeg|gif|png|js|css|ico)$# i");
 $crawler->addURLFollowRule("/^http:\/\/primerates.com/");
 // Ignore links with '?' after
 $crawler->addNonFollowMatch("/\?/");
-
+// Set multiprocessing
+$crawler->goMultiProcessed(8); 
 // Thats enough, now here we go
 $crawler->go();
 $crawler->closeFile();

@@ -11,7 +11,7 @@ class MyCrawler extends PHPCrawler
 {
   protected $sitemap_output_file;
   protected $dictionary = array();
-  protected $url = 'http:\/\/primerates.com';
+  protected $url = 'http:\/\/www.primerates.com';
 
   public function setSitemapOutputFile($file)
   {
@@ -69,13 +69,13 @@ class MyCrawler extends PHPCrawler
 $crawler = new MyCrawler();
 $crawler->setSitemapOutputFile("sitemap.xml");
 // URL to crawl
-$crawler->setURL("primerates.com");
+$crawler->setURL("www.primerates.com");
 
 // Only receive content of files with content-type "text/html"
 $crawler->addContentTypeReceiveRule("#text/html#");
 // Ignore links to pictures, dont even request pictures
 $crawler->addURLFilterRule("#\.(jpg|jpeg|gif|png|js|css|ico)$# i");
-$crawler->addURLFollowRule("/^http:\/\/primerates.com/");
+$crawler->addURLFollowRule("/^http:\/\/www.primerates.com/");
 // Ignore links with '?' after
 $crawler->addNonFollowMatch("/\?/");
 // Set multiprocessing

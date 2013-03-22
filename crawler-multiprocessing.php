@@ -79,7 +79,7 @@ $crawler->addURLFollowRule("/^http:\/\/www.primerates.com/");
 // Ignore links with '?' after
 $crawler->addNonFollowMatch("/\?/");
 // Set multiprocessing
-$crawler->goMultiProcessed(8); 
+$crawler->goMultiProcessed(32); 
 // Thats enough, now here we go
 $crawler->go();
 $crawler->closeFile();

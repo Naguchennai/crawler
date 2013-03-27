@@ -18,7 +18,7 @@ class MyCrawler extends PHPCrawler
       $this->sitemap_output_file = $file;
 
       file_put_contents($this->sitemap_output_file,
-                      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd\">\r\n",
+                      '<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">\n',
                       FILE_APPEND);
   }
 
@@ -58,21 +58,7 @@ class MyCrawler extends PHPCrawler
 
   public function closeFile()
   {
-        file_put_contents($this->sitemap_output_file, '</urlset>', FILE_APPEND);
-    
-        // Create file sitemap index
-        $content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n".
-                        "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\r\n".
-                           "<sitemap>\r\n".
-                              "<loc>http://www.primerates.com/sitemap_primerates.xml</loc>\r\n".
-                        "<lastmod>".date('Y-m-d', strtotime('-1 day'))."</lastmod>\r\n".
-                           "</sitemap>\r\n".
-                           "<sitemap>\r\n".
-                              "<loc>http://www.primerates.com/listRatesInSiteMap.xml</loc>\r\n".
-                              "<lastmod>".date('Y-m-d', strtotime('-1 day'))."</lastmod>\r\n".
-                           "</sitemap>\r\n".
-                        "</sitemapindex>\r\n";
-        file_put_contents('sitemap.xml', $content, FILE_APPEND);
+    file_put_contents($this->sitemap_output_file, '</urlset>', FILE_APPEND);
   }
 }
 
@@ -81,8 +67,7 @@ class MyCrawler extends PHPCrawler
 // and start the crawling-process. 
 
 $crawler = new MyCrawler();
-// File name sitemap page primerates but not rates 
-$crawler->setSitemapOutputFile("sitemap_primerates.xml");
+$crawler->setSitemapOutputFile("sitemap.xml");
 // URL to crawl
 $crawler->setURL("www.primerates.com");
 
@@ -94,7 +79,7 @@ $crawler->addURLFollowRule("/^http:\/\/www.primerates.com/");
 // Ignore links with '?' after
 $crawler->addNonFollowMatch("/\?/");
 // Set multiprocessing
-$crawler->goMultiProcessed(32); 
+$crawler->goMultiProcessed(8); 
 // Thats enough, now here we go
 $crawler->go();
 $crawler->closeFile();

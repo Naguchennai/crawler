@@ -6,8 +6,8 @@
 // Inculde the phpcrawl-mainclass
 include("libs/PHPCrawler.class.php");
 
-// Extend the class and override the handleDocumentInfo()-method 
-class MyCrawler extends PHPCrawler 
+// Extend the class and override the handleDocumentInfo()-method
+class MyCrawler extends PHPCrawler
 {
   protected $sitemap_output_file;
   protected $dictionary = array();
@@ -22,7 +22,7 @@ class MyCrawler extends PHPCrawler
                       FILE_APPEND);
   }
 
-  public function handleDocumentInfo($DocInfo) 
+  public function handleDocumentInfo($DocInfo)
   {
         if(!in_array($DocInfo->url, $this->dictionary) && $DocInfo->http_status_code == 200 && !strpos($DocInfo->url, '(')){
             $this->dictionary[] = $DocInfo->url;
@@ -52,24 +52,24 @@ class MyCrawler extends PHPCrawler
                               "</url>\r\n",
                               FILE_APPEND);
         }
-        
+
         flush();
-  } 
+  }
 
   public function closeFile()
   {
         file_put_contents($this->sitemap_output_file, '</urlset>', FILE_APPEND);
-    
+
         // Create file sitemap index
         $content = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n".
                         "<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\r\n".
                            "<sitemap>\r\n".
                               "<loc>http://www.primerates.com/sitemap_primerates.xml</loc>\r\n".
-                        "<lastmod>".date('Y-m-d', strtotime('-1 day'))."</lastmod>\r\n".
+                        "<lastmod>".date(DATE_W3C, strtotime('-1 day'))."</lastmod>\r\n".
                            "</sitemap>\r\n".
                            "<sitemap>\r\n".
                               "<loc>http://www.primerates.com/listRatesInSiteMap.xml</loc>\r\n".
-                              "<lastmod>".date('Y-m-d', strtotime('-1 day'))."</lastmod>\r\n".
+                              "<lastmod>".date(DATE_W3C, strtotime('-1 day'))."</lastmod>\r\n".
                            "</sitemap>\r\n".
                         "</sitemapindex>\r\n";
         file_put_contents('sitemap.xml', $content, FILE_APPEND);
@@ -78,10 +78,10 @@ class MyCrawler extends PHPCrawler
 
 // Now, create a instance of your class, define the behaviour
 // of the crawler (see class-reference for more options and details)
-// and start the crawling-process. 
+// and start the crawling-process.
 
 $crawler = new MyCrawler();
-// File name sitemap page primerates but not rates 
+// File name sitemap page primerates but not rates
 $crawler->setSitemapOutputFile("sitemap_primerates.xml");
 // URL to crawl
 $crawler->setURL("www.primerates.com");
@@ -94,7 +94,7 @@ $crawler->addURLFollowRule("/^http:\/\/www.primerates.com/");
 // Ignore links with '?' after
 $crawler->addNonFollowMatch("/\?/");
 // Set multiprocessing
-$crawler->goMultiProcessed(32); 
+$crawler->goMultiProcessed(32);
 // Thats enough, now here we go
 $crawler->go();
 $crawler->closeFile();
